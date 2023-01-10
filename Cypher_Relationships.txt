@@ -1,0 +1,168 @@
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (quarter:QUARTER {QUARTER:row.Quarter})
+     MERGE (flight)-[:DEPARTURE_QUARTER]->(quarter);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (date:DATE {DATE:row.DATE})
+     MERGE (flight)-[:DEPARTURE_DATE]->(date);
+	 
+// DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (date:DATE {DATE:row.DATE})
+     MATCH (quarter:QUARTER {QUARTER:row.Quarter})
+     MERGE (quarter)-[:CONTAINS_DATE]->(date);	
+
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (originCity:ORIGIN_CITY {ORIGIN_CITY:row.ORIGIN_CITY})
+     MERGE (flight)-[:FLY_FROM_CITY]->(originCity);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (airline:AIRLINE{iataCode:row.IATA_CODE})
+     MERGE (flight)-[:OWNED_BY]->(airline);
+
+// DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (originCity:ORIGIN_CITY {ORIGIN_CITY:row.ORIGIN_CITY})
+     MATCH (originAirport:ORIGIN_AIRPORT {ORIGIN_AIRPORT:row.ORIGIN_AIRPORT})
+     MERGE (originCity)-[:CITY_HAS_AIRPORT]->(originAirport);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (originAirport:ORIGIN_AIRPORT {ORIGIN_AIRPORT:row.ORIGIN_AIRPORT})
+     MERGE (flight)-[:FLY_FROM_AIRPORT]->(originAirport);
+
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (destinationCity:DESTINATION_CITY {DESTINATION_CITY:row.DESTINATION_CITY})
+     MERGE (flight)-[:FLY_TO_CITY]->(destinationCity);
+
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (destinationCity:DESTINATION_CITY {DESTINATION_CITY:row.DESTINATION_CITY})
+     MATCH (destinationAirport:DESTINATION_AIRPORT {DESTINATION_AIRPORT:row.DESTINATION_AIRPORT})
+     MERGE (destinationCity)-[:CITY_HAVE_AIRPORT]->(destinationAirport);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (destinationAirport:DESTINATION_AIRPORT {DESTINATION_AIRPORT:row.DESTINATION_AIRPORT})
+     MERGE (flight)-[:FLY_TO_AIRPORT]->(destinationAirport);
+	 
+// 	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (isCancelled:CANCELLED {isCancelled:row.CANCELLED})
+     MERGE (flight)-[:IS_CANCELLED]->(isCancelled);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (cancellationReason:CANCELLATION_REASON {cancellationReason:row.CANCELLATION_REASON})
+     MERGE (flight)-[:CANCELLATION_REASON]->(cancellationReason);
+	 
+	 
+// DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (isCancelled:CANCELLED {isCancelled:row.CANCELLED})
+     MATCH (cancellationReason:CANCELLATION_REASON {cancellationReason:row.CANCELLATION_REASON})
+     MERGE (isCancelled)-[:POSSIBLE_CANCELLATION_REASONS]->(cancellationReason);
+
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (arrivedEarly:ARRIVED_EARLY {isArrivedEarly:row.ARRIVED_EARLY})
+     MERGE (flight)-[:IS_EARLY]->(arrivedEarly);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (onTime:ON_TIME {isOnTime:row.ON_TIME})
+     MERGE (flight)-[:IS_ONTIME]->(onTime);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+     MATCH (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE})
+     MERGE (flight)-[:IS_LATE]->(arrivedLate);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE})
+     MATCH (isAirSystemDelay:IS_AIR_SYSTEM_DELAY {isAirSystemDelay:row.IS_AIR_SYSTEM_DELAY})
+     MERGE (arrivedLate)-[:IS_AIRSYSTEMDELAY]->(isAirSystemDelay);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE})
+     MATCH (isLateAircraftDelay:IS_LATE_AIRCRAFT_DELAY {isLateAircraftDelay:row.IS_LATE_AIRCRAFT_DELAY})
+     MERGE (arrivedLate)-[:IS_LATEAIRCRAFTDELAY]->(isLateAircraftDelay);
+
+// DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE})
+     MATCH (isSecurityDelay:IS_SECURITY_DELAY {isSecurityDelay:row.IS_SECURITY_DELAY})
+     MERGE (arrivedLate)-[:IS_SECURITYDELAY]->(isSecurityDelay);
+	 
+// DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE})
+     MATCH (isAirlineDelay:IS_AIRLINE_DELAY {isAirlineDelay:row.IS_AIRLINE_DELAY})
+     MERGE (arrivedLate)-[:IS_AIRLINEDELAY]->(isAirlineDelay);
+	 
+//	DONE
+// Create Constrains  build reltionship
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+     MATCH (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE})
+     MATCH (isWeatherDelay:IS_WEATHER_DELAY {isWeatherDelay:row.IS_WEATHER_DELAY})
+     MERGE (arrivedLate)-[:IS_WEATHERDELAY]->(isWeatherDelay);

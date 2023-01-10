@@ -1,0 +1,173 @@
+// Uniqueness constraints.
+CREATE CONSTRAINT ON (airline:AIRLINE) ASSERT airline.iataCode IS UNIQUE;
+CREATE CONSTRAINT ON (flight:FLIGHT) ASSERT flight.FLIGHTID IS UNIQUE;
+CREATE CONSTRAINT ON (originAirport:ORIGIN_AIRPORT) ASSERT originAirport.originAirport IS UNIQUE;
+CREATE CONSTRAINT ON (originCity:ORIGIN_CITY) ASSERT originCity.originCity IS UNIQUE;
+CREATE CONSTRAINT ON (destinationAirport:DESTINATION_AIRPORT) ASSERT destinationAirport.destinationAirport IS UNIQUE;
+CREATE CONSTRAINT ON (destinationCity:DESTINATION_CITY) ASSERT destinationCity.destinationCity IS UNIQUE;
+CREATE CONSTRAINT ON (date:DATE) ASSERT date.date IS UNIQUE;
+CREATE CONSTRAINT ON (quarter:QUARTER) ASSERT quarter.quarter IS UNIQUE;
+CREATE CONSTRAINT ON (onTime:ON_TIME) ASSERT onTime.isOnTime IS UNIQUE;
+CREATE CONSTRAINT ON (arrivedEarly:ARRIVED_EARLY) ASSERT arrivedEarly.isArrivedEarly IS UNIQUE;
+CREATE CONSTRAINT ON (arrivedLate:ARRIVED_LATE) ASSERT arrivedLate.isArrivedLate IS UNIQUE;
+CREATE CONSTRAINT ON (isAirSystemDelay:IS_AIR_SYSTEM_DELAY) ASSERT isAirSystemDelay.isAirSystemDelay IS UNIQUE;
+CREATE CONSTRAINT ON (isSecurityDelay:IS_SECURITY_DELAY) ASSERT isSecurityDelay.isSecurityDelay IS UNIQUE;
+CREATE CONSTRAINT ON (isLateAircraftDelay:IS_LATE_AIRCRAFT_DELAY) ASSERT isLateAircraftDelay.isLateAircraftDelay IS UNIQUE;
+CREATE CONSTRAINT ON (isWeatherDelay:IS_WEATHER_DELAY) ASSERT isWeatherDelay.isWeatherDelay IS UNIQUE;
+CREATE CONSTRAINT ON (isDiverted:DIVERTED) ASSERT isDiverted.isDiverted IS UNIQUE;
+CREATE CONSTRAINT ON (isCancelled:CANCELLED) ASSERT isCancelled.isCancelled IS UNIQUE;
+CREATE CONSTRAINT ON (cancellationReason:CANCELLATION_REASON) ASSERT cancellationReason.cancellationReason IS UNIQUE;
+   
+// Create Airline node
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (airline:AIRLINE{iataCode:row.IATA_CODE})
+   ON CREATE SET airline.AIRLINENAME = row.AIRLINE;
+   
+//
+// Create Flight Node
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE 
+  (flight:FLIGHT{FLIGHTID:row.FLIGHT})
+      ON CREATE SET flight.flight_number=row.FLIGHT_NUMBER,
+					flight.TAIL_NUMBER=row.TAIL_NUMBER,
+					flight.SCHEDULED_DEPARTURE=row.SCHEDULED_DEPARTURE,
+					flight.DEPARTURE_TIME=row.DEPARTURE_TIME,
+					flight.DEPARTURE_DELAY=row.DEPARTURE_DELAY,
+					flight.TAXI_OUT=row.TAXI_OUT,
+					flight.WHEELS_OFF =row.WHEELS_OFF ,
+					flight.SCHEDULED_TIME=row.SCHEDULED_TIME,
+					flight.ELAPSED_TIME=row.ELAPSED_TIME,
+					flight.AIR_TIME=row.AIR_TIME,
+					flight.DISTANCE=row.DISTANCE,
+					flight.WHEELS_ON=row.WHEELS_ON,
+					flight.TAXI_IN=row.TAXI_IN,
+					flight.SCHEDULED_ARRIVAL=row.SCHEDULED_ARRIVAL,
+					flight.ARRIVAL_TIME=row.ARRIVAL_TIME,
+					flight.ARRIVAL_DELAY=row.ARRIVAL_DELAY,
+					flight.AIR_SYSTEM_DELAY=row.AIR_SYSTEM_DELAY,
+					flight.SECURITY_DELAY=row.SECURITY_DELAY,
+					flight.LATE_AIRCRAFT_DELAY=row.LATE_AIRCRAFT_DELAY,
+					flight.WEATHER_DELAY=row.WEATHER_DELAY;
+
+//
+// ORIGIN_AIRPORT
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (originAirport:ORIGIN_AIRPORT {ORIGIN_AIRPORT:row.ORIGIN_AIRPORT});
+
+//
+// ORIGIN_CITY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (originCity:ORIGIN_CITY {ORIGIN_CITY:row.ORIGIN_CITY});
+  
+//
+// DESTINATION_AIRPORT
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (destinationAirport:DESTINATION_AIRPORT {DESTINATION_AIRPORT:row.DESTINATION_AIRPORT});
+  
+//
+// DESTINATION_CITY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (destinationCity:DESTINATION_CITY {DESTINATION_CITY:row.DESTINATION_CITY});
+  
+		  
+//
+// DATE	
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (date:DATE {DATE:row.DATE});	  
+
+//
+// QUARTER	
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (quarter:QUARTER {QUARTER:row.Quarter});	
+  
+//
+// ON_TIME
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (onTime:ON_TIME {isOnTime:row.ON_TIME});
+  
+//
+// ARRIVED_EARLY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (arrivedEarly:ARRIVED_EARLY {isArrivedEarly:row.ARRIVED_EARLY});
+  
+//
+// ARRIVED_LATE
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (arrivedLate:ARRIVED_LATE {isArrivedLate:row.ARRIVED_LATE});
+  
+//
+// IS_AIR_SYSTEM_DELAY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isAirSystemDelay:IS_AIR_SYSTEM_DELAY {isAirSystemDelay:row.IS_AIR_SYSTEM_DELAY});
+  
+//
+// IS_SECURITY_DELAY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isSecurityDelay:IS_SECURITY_DELAY {isSecurityDelay:row.IS_SECURITY_DELAY}); 
+  
+//
+// IS_AIRLINE_DELAY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isAirlineDelay:IS_AIRLINE_DELAY {isAirlineDelay:row.IS_AIRLINE_DELAY}); 
+  
+//
+// IS_LATE_AIRCRAFT_DELAY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isLateAircraftDelay:IS_LATE_AIRCRAFT_DELAY {isLateAircraftDelay:row.IS_LATE_AIRCRAFT_DELAY}); 
+  
+//
+// IS_WEATHER_DELAY
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isWeatherDelay:IS_WEATHER_DELAY {isWeatherDelay:row.IS_WEATHER_DELAY}); 
+  
+//
+// DIVERTED
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isDiverted:DIVERTED {isDiverted:row.DIVERTED}); 
+  
+//
+// CANCELLED
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (isCancelled:CANCELLED {isCancelled:row.CANCELLED}); 
+  
+//
+// CANCELLATION_REASON
+:auto USING PERIODIC COMMIT 1000
+LOAD CSV With HEADERS FROM 'file:///wrangled_dataset.csv' AS row
+MERGE  
+  (cancellationReason:CANCELLATION_REASON {cancellationReason:row.CANCELLATION_REASON}); 
